@@ -10,6 +10,18 @@ func Map[I any, O any](arr []I, mapFunc func(I) O) []O {
 	return res
 }
 
+func MapErr[I any, O any](arr []I, mapFunc func(I) (O, error)) ([]O, error) {
+	res := make([]O, 0, len(arr))
+	for _, el := range arr {
+		val, err := mapFunc(el)
+		if err != nil {
+			return nil, err
+		}
+		res = append(res, val)
+	}
+	return res, nil
+}
+
 func Filter[I any](arr []I, filterFunc func(I) bool) []I {
 	res := make([]I, 0)
 	for _, el := range arr {
